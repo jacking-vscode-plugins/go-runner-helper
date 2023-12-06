@@ -37,7 +37,7 @@ None
 ### 0.0.2
 > 1. create .vscode folder  if not exist
 > 2. create file runner_go.json if not exist
-> 
+> 3. fix: weight计数错误
 
 ---
 
