@@ -1,8 +1,9 @@
 {
-  "name": "go-ext",
-  "displayName": "go-ext",
+  "name": "go-runner-helper",
+  "displayName": "go-runner-helper",
   "description": "",
   "version": "0.0.1",
+  "publisher": "jacking",
   "engines": {
     "vscode": "^1.84.0"
   },
@@ -10,7 +11,7 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -67,5 +68,14 @@
     "eslint": "^8.54.0",
     "typescript": "^5.3.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jacking-vscode-plugins/go-runner-helper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jacking-vscode-plugins/go-runner-helper/issues"
+  },
+  "homepage": "https://github.com/jacking-vscode-plugins/go-runner-helper",
+  "license": "Apache-2.0"
 }
