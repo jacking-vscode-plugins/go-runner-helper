@@ -233,6 +233,7 @@ export class GoProgram {
     public init(gp: GoProgram) {
         this.args = gp.args
         this.filepath = gp.filepath
+        this.weight = gp.weight
     }
 }
 
@@ -278,17 +279,20 @@ export class GoProgramInfos {
 
     public init(gpis: GoProgramInfos) {
         let runners: GoProgram[] = []
-        for (let index = 0; index < gpis.runners.length; index++) {
-            let gp = new GoProgram()
-            gp.init(gpis.runners[index])
-            runners.push(gp)
+        if (gpis.runners != undefined) {
+            for (let index = 0; index < gpis.runners.length; index++) {
+                let gp = new GoProgram()
+                gp.init(gpis.runners[index])
+                runners.push(gp)
+            }
         }
         //
         this.runners = runners
         this.defaultArgs = gpis.defaultArgs
-        this.buildArgs = gpis.buildArgs
-        this.skipMatches = gpis.skipMatches
+        this.buildArgs = gpis.buildArgs == null || gpis.buildArgs.length == 0 ? defaultBuildArgs : gpis.buildArgs
+        this.skipMatches = gpis.skipMatches == undefined ? [] : gpis.skipMatches
 
         this.sortRunners()
     }
 }
+const defaultBuildArgs: string[] = ["build", "-gcflags", "all=-N -l"]

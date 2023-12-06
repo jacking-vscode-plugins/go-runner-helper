@@ -34,6 +34,11 @@ None
 ### 0.0.1
 > first init
 
+### 0.0.2
+> 1. create .vscode folder  if not exist
+> 2. create file runner_go.json if not exist
+> 
+
 ---
 
 ## Following extension guidelines

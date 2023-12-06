@@ -21,6 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 		if (rootWorkspaceFolder == null) {
 			return
 		}
+		rs.checkRunnerFile(path.join(rootWorkspaceFolder.uri.fsPath, tps.goRunnerFile))
 		rs.showTypeListQuickPick(context, rootWorkspaceFolder.uri.fsPath)
 	})
 
@@ -53,7 +54,7 @@ function showGoProgramListQuickPick(context: vscode.ExtensionContext) {
 		then((selectedItem) => {
 			if (selectedItem) {
 				let gp: GoProgram = gm.getGpDetailByPkgPath(selectedItem)
-				vscode.window.showInformationMessage("" + (gp instanceof GoProgram))
+				// vscode.window.showInformationMessage("" + (gp instanceof GoProgram))
 				if (gp == null) {
 					vscode.window.showErrorMessage(`goProgram not defined:${selectedItem}`)
 					return

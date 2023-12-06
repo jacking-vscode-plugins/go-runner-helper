@@ -109,3 +109,21 @@ function workDir(workRootPath: string, directoryPath: string, deep: number, chec
     })
     return mainsList
 }
+
+
+export function checkRunnerFile(fileFullPath: string) {
+    if (fileFullPath == "") {
+        return
+    }
+    const dirName = path.dirname(fileFullPath)
+    if (!fs.existsSync(dirName)) {
+        const suc = fs.mkdirSync(dirName, { recursive: true })
+        if (suc == undefined) {
+            tools.vscodeShowErrorMsg("创建目录失败:" + dirName)
+            return
+        }
+    }
+    if (!fs.existsSync(fileFullPath)) {
+        tools.writeFileSync(fileFullPath, "{}")
+    }
+}
