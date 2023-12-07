@@ -2,7 +2,7 @@
 > 自动扫描项目中的main包，并生成run配置文件，这样可以支持同一个项目中运行多个go程序。
 
 ## Features
-> 1. 自动扫描项目中的main包(main包中的文件至少1个<1M，且文件须以package main开头)
+> 1. 自动扫描项目中的main包(main包中的文件至少1个<1M)
 > 2. 支持列出扫出的main包，并选择其中之一执行。不必每次打开main包中的文件去执行main
 > 3. 可运行main包列表按权重排序，权重点击一次+1，也可以配置(.vscode/run_go.json)
 > 4. 如过不想列出某些main包，在.vscode/run_go.json中配置skipMatches
@@ -38,6 +38,9 @@ None
 > 1. create .vscode folder  if not exist
 > 2. create file runner_go.json if not exist
 > 3. fix: weight计数错误
+
+### 0.0.4
+> 1. 优化识别main包
 
 ---
 
