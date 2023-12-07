@@ -64,7 +64,24 @@ function scanGo(rootPath: string): string[] {
         tools.vscodeShowErrorMsg("待扫描的文件夹路径不能为空或根目录(" + rootPath + ")")
         return []
     }
-    const mainList = workDir(rootPath, rootPath, 0, function (file: string): boolean {
+    const checkSkipFunc = function (relatePath: string): boolean {
+        if (relatePath == "") {
+            return false
+        }
+        const parsedPath = path.parse(relatePath)
+        const regs: RegExp[] = [
+            /^\.[a-zA-Z0-9]+.*/, // .开头文件
+            /^\.?[\\\/]*vendor\/?$/, // vendor目录
+            //
+        ]
+        for (let index = 0; index < regs.length; index++) {
+            if (regs[index].test(parsedPath.name)) {
+                return true
+            }
+        }
+        return false
+    }
+    const mainList = workDir(rootPath, rootPath, checkSkipFunc, 0, function (file: string): boolean {
         if (!file.endsWith(".go")) {
             return false
         }
@@ -72,17 +89,32 @@ function scanGo(rootPath: string): string[] {
         if (fileBody instanceof Error) {
             return false
         }
-        return fileBody.startsWith("package main")
+        const lines = allLines(fileBody)
+        for (let index = 0; index < lines.length; index++) {
+            const element = lines[index];
+            if (element == "package main") {
+                return true
+            }
+        }
+        return false
     })
     return mainList
 }
 
+function allLines(s: string): string[] {
+    return s.split(/[\r\n]+/);
+}
 
 
-function workDir(workRootPath: string, directoryPath: string, deep: number, checkMain: Function): string[] {
-    if (deep > 10) {
+function workDir(workRootPath: string, directoryPath: string, checkSkipFunc: Function, deep: number, checkMain: Function): string[] {
+    if (deep >= 5) {
         return []
     }
+    const nowRelatePath = path.relative(workRootPath, directoryPath)
+    if (checkSkipFunc(nowRelatePath)) {
+        return []
+    }
+
     let mainsList: string[] = []
     const items = fs.readdirSync(directoryPath)
     let nowMain = false
@@ -92,7 +124,7 @@ function workDir(workRootPath: string, directoryPath: string, deep: number, chec
         // 判断是否为目录
         if (stats.isDirectory()) {
             // 递归遍历子目录
-            const subDirMains = workDir(workRootPath, fullPath, deep + 1, checkMain);
+            const subDirMains = workDir(workRootPath, fullPath, checkSkipFunc, deep + 1, checkMain);
             subDirMains.forEach((v) => { mainsList.push(v) })
         } else {
             // byte=1 kb=1024 mb=1024*1024 // 大于1M忽略 // 1M源码几万行了，实际一般不会超过这么多代码

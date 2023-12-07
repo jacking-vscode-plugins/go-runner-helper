@@ -4,5 +4,5 @@ class _language {
 }
 export const Language = new _language()
 
-export const goRunnerFile = ".vscode/runner_go.json"
-export const buildOutBasePath = ".build"
+export const goRunnerFile: string = ".vscode/runner_go.json"
+export const buildOutBasePath: string = ".build"

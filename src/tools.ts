@@ -15,6 +15,9 @@ export function writeFileSync(fp: string, data: string): void {
     fs.writeFileSync(fp, data)
 }
 
+export function appendWriteSync(fp: string, data: string): void {
+    fs.appendFileSync(fp, data)
+}
 
 export function isError(e: any): boolean {
     return e instanceof Error ? true : false
