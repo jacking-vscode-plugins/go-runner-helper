@@ -1,6 +1,9 @@
 import * as tools from "./tools"
 import * as vscode from "vscode"
-import *as tps from "./types"
+import * as tps from "./types"
+import * as os from "os"
+
+const path = require('path');
 const fs = require('fs').Promise
 
 export class GoManager {
@@ -163,7 +166,11 @@ export class GoProgram {
         }
         const rootPath = workspaceRoot.uri.fsPath
 
-        buildArgs.push("-o", this.getBuildOutBinFileAbs(rootPath), this.getBuildSrcPathAbs(rootPath))
+        const mainPkg = this.getBuildSrcPathAbs(rootPath)
+        let relativePath = path.relative(rootPath, mainPkg)
+        relativePath = "./" + relativePath
+
+        buildArgs.push("-o", this.getBuildOutBinFileAbs(rootPath), relativePath)
 
         // 获取任务执行器
         const buildTask = new vscode.Task(
@@ -220,7 +227,13 @@ export class GoProgram {
         return root + "/" + this.filepath
     }
     private getBuildOutBinFileAbs(root: string) {
-        return this.getBuildOutPathAbs(root) + "/" + this.getBuildPathPkgName() + ".bin"
+
+        let binSuffix = ".bin"
+        if (os.platform() == "win32") {
+            binSuffix = ".exe"
+        }
+        const binFile = this.getBuildOutPathAbs(root) + "/" + this.getBuildPathPkgName() + binSuffix
+        return binFile
     }
     private getBuildOutPathAbs(root: string) {
         return root + "/" + tps.buildOutBasePath + "/" + this.filepath
