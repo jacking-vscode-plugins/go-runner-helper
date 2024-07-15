@@ -37,7 +37,7 @@
 
 ## Requirements
 
-None
+> 1. 插件运行时会生成临时文件，可以将 `.build` 添加到 .gitignore以忽略
 
 ## Extension Settings
 

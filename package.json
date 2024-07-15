@@ -2,7 +2,7 @@
   "name": "go-runner-helper",
   "displayName": "go-runner-helper",
   "description": "a tool for running go program",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "jacking",
   "engines": {
     "vscode": "^1.84.0"
