@@ -1,6 +1,32 @@
 # go-runner-helper README
 > 自动扫描项目中的main包，并生成run配置文件，这样可以支持同一个项目中运行多个go程序。
 
+## 使用步骤
+> 1. 依赖于.vscode/launch.json，需要配置一个name为`RUN-GO`的配置，一个完整可用的launch.json如下(如果launch.json中有其他配置，可将`RUN-GO`部分复制到configurations中):
+```json
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "RUN-GO",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}"
+        }
+    ]
+}
+```
+> 2. 插件加载后，文本右上角有一个运行符号`▷`和刷新符号。
+> 3. 点击刷新（load项目中的main package）
+> 4. 点击运行`▷`（列出可以运行的main package）
+> 5. 点击具体main package，即可开始执行
+>
+> 执行时重复4-5；新增main package时，重复一次3-5；
+
 ## Features
 > 1. 自动扫描项目中的main包(main包中的文件至少1个<1M)
 > 2. 支持列出扫出的main包，并选择其中之一执行。不必每次打开main包中的文件去执行main
@@ -11,15 +37,7 @@
 
 ## Requirements
 
-> 1. 依赖.vscode/launch.json中，需配置一个name为`RUN-GO`的配置，一个可用的模板如下：
-```json
-{
-    "name": "RUN-GO",
-    "type": "go",
-    "request": "launch"
-}
-```
-> 2. linux下测试通过，osx、win未测试 
+None
 
 ## Extension Settings
 
@@ -41,6 +59,12 @@ None
 
 ### 0.0.4
 > 1. 优化识别main包
+
+### 0.0.5
+> 1. 修复windows下运行错误
+
+### 0.0.6
+> 1. 完善文档
 
 ---
 
